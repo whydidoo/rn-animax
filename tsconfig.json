@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      // This needs to be mirrored in babel.config.js
+      "*": ["src/*"],
+      "components/*": ["src/components/*"],
+      "theme/*": ["src/theme/*"],
+      "screens/*": ["src/screens/*"]
+    }
+  },
+  "extends": "@tsconfig/react-native/tsconfig.json"
+}
