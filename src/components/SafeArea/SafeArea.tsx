@@ -9,6 +9,8 @@ import { Box } from '../Box';
 
 type Props = SpacingProps<Theme> & ColorProps<Theme> & { children?: React.ReactNode } & ViewProps;
 
+const padding = 24;
+
 export const SafeArea: React.FC<Props> = ({ children, style, ...props }) => {
   const { bottom, left, right, top } = useSafeAreaInsets();
   const isDark = useIsDarkTheme();
@@ -18,10 +20,10 @@ export const SafeArea: React.FC<Props> = ({ children, style, ...props }) => {
 
   const styles: StyleProp<ViewStyle> = useMemo(() => {
     return {
-      paddingLeft: left,
-      paddingRight: right,
+      paddingLeft: left + padding,
+      paddingRight: right + padding,
       paddingBottom: bottom,
-      paddingTop: top,
+      paddingTop: top + padding,
       flex: 1,
       backgroundColor: isDark ? dark1 : othersWhite,
     };

@@ -5,7 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { StyleSheet, TouchableOpacityProps } from 'react-native';
 import { GenericTouchableProps } from 'react-native-gesture-handler/lib/typescript/components/touchables/GenericTouchable';
 import { Theme } from 'theme';
-import { useIsDarkTheme } from 'theme/hooks';
+import { useGetValueByDarkTheme } from 'theme/hooks';
 import { BorderProps } from '@shopify/restyle';
 import { Typography } from 'components/Typography';
 
@@ -28,26 +28,25 @@ export const Button: React.FC<Props & ButtonProps> = ({
   text,
   ...props
 }) => {
-  const isDark = useIsDarkTheme();
   const height = 58;
   const width = fullWidth ? '100%' : height;
   const borderRadius = shape === 'default' ? 16 : 100;
   const { containerStyleFullWidth, containerStyle } = styleButton;
   const borderProps = {} as BorderProps<Theme>;
-
+  const { getValueByDarkTheme } = useGetValueByDarkTheme();
   let colorButton: keyof Theme['colors'] = 'primary500';
   let textColor: keyof Theme['colors'] = 'othersWhite';
 
   if (variant === 'ounline') {
-    colorButton = isDark ? 'dark2' : 'othersWhite';
-    borderProps.borderColor = isDark ? 'dark3' : 'greyscale200';
+    colorButton = getValueByDarkTheme('dark2', 'othersWhite');
+    borderProps.borderColor = getValueByDarkTheme('dark3', 'greyscale200');
     borderProps.borderWidth = 1;
-    textColor = isDark ? 'othersWhite' : 'greyscale900';
+    textColor = getValueByDarkTheme('othersWhite', 'greyscale900');
   }
 
   if (variant === 'secondary') {
-    colorButton = isDark ? 'dark3' : 'primary100';
-    textColor = isDark ? 'othersWhite' : 'primary500';
+    colorButton = getValueByDarkTheme('dark3', 'primary100');
+    textColor = getValueByDarkTheme('othersWhite', 'primary500');
   }
 
   const styleTouchableContainer = fullWidth ? containerStyleFullWidth : containerStyle;
