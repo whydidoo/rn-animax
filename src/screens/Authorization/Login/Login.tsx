@@ -35,7 +35,7 @@ export const Login: React.FC = () => {
             </Typography>
           </Box>
 
-          <Box rowGap="5" marginBottom="5" alignItems="center">
+          <Box rowGap="5" marginBottom="2" alignItems="center">
             <Input placeholder="Email" />
             <Input placeholder="Password" secureTextEntry />
             <Checkbox check={isRember} onCheck={setIsRember} text="Remember me" />
@@ -47,7 +47,7 @@ export const Login: React.FC = () => {
             </TouchableWithoutFeedback>
           </Box>
 
-          <Divider text="or continue with" marginVertical="5" />
+          <Divider text="or continue with" marginVertical="3" />
 
           <Box columnGap="5" flexDirection="row" justifyContent="center">
             <Box flex={sizeButton}>
