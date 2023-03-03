@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { ReactSVGElement } from 'react';
 import { Box } from 'components/Box';
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { StyleSheet, TouchableOpacityProps } from 'react-native';
+import { ActivityIndicator, StyleSheet, TouchableOpacityProps } from 'react-native';
 import { GenericTouchableProps } from 'react-native-gesture-handler/lib/typescript/components/touchables/GenericTouchable';
 import { Theme } from 'theme';
-import { useGetValueByDarkTheme } from 'theme/hooks';
+import { useGetValueByDarkTheme, useThemeApplication } from 'theme/hooks';
 import { BorderProps } from '@shopify/restyle';
 import { Typography } from 'components/Typography';
 
@@ -17,6 +17,9 @@ interface ButtonProps {
   shape?: ButtonShape;
   variant?: ButtonVariant;
   text?: string;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
+  loading?: boolean;
 }
 
 type Props = TouchableOpacityProps & GenericTouchableProps & TouchableOpacityProps;
@@ -26,6 +29,9 @@ export const Button: React.FC<Props & ButtonProps> = ({
   shape = 'default',
   variant = 'primary',
   text,
+  leftIcon,
+  rightIcon,
+  loading,
   ...props
 }) => {
   const height = 58;
@@ -34,27 +40,45 @@ export const Button: React.FC<Props & ButtonProps> = ({
   const { containerStyleFullWidth, containerStyle } = styleButton;
   const borderProps = {} as BorderProps<Theme>;
   const { getValueByDarkTheme } = useGetValueByDarkTheme();
+  const { colors } = useThemeApplication();
   let colorButton: keyof Theme['colors'] = 'primary500';
   let textColor: keyof Theme['colors'] = 'othersWhite';
+  let colorIcon: keyof Theme['colors'] = 'othersWhite';
 
   if (variant === 'ounline') {
     colorButton = getValueByDarkTheme('dark2', 'othersWhite');
     borderProps.borderColor = getValueByDarkTheme('dark3', 'greyscale200');
     borderProps.borderWidth = 1;
     textColor = getValueByDarkTheme('othersWhite', 'greyscale900');
+    colorIcon = getValueByDarkTheme('othersWhite', 'greyscale900');
   }
 
   if (variant === 'secondary') {
     colorButton = getValueByDarkTheme('dark3', 'primary100');
     textColor = getValueByDarkTheme('othersWhite', 'primary500');
+    colorIcon = getValueByDarkTheme('othersWhite', 'primary500');
   }
 
   const styleTouchableContainer = fullWidth ? containerStyleFullWidth : containerStyle;
   const textContent = text ? (
-    <Typography variant="BodyLargeBold" textAlign="center" color={textColor}>
+    <Typography variant="BodyLargeBold" textAlign="center" color={textColor} paddingHorizontal="4">
       {text}
     </Typography>
   ) : null;
+
+  const fillColor = colors[colorIcon];
+
+  const leftIconContent = leftIcon
+    ? React.cloneElement(leftIcon as ReactSVGElement, {
+        fill: fillColor,
+      })
+    : null;
+
+  const rightIconContent = rightIcon
+    ? React.cloneElement(rightIcon as ReactSVGElement, {
+        fill: fillColor,
+      })
+    : null;
 
   return (
     <TouchableOpacity {...props} containerStyle={styleTouchableContainer} activeOpacity={0.9}>
@@ -64,10 +88,20 @@ export const Button: React.FC<Props & ButtonProps> = ({
         paddingHorizontal="4"
         borderRadius={borderRadius}
         height={height}
+        alignItems="center"
         justifyContent="center"
+        flexDirection="row"
         {...borderProps}
       >
-        {textContent}
+        {loading ? (
+          <ActivityIndicator size="small" color={fillColor} />
+        ) : (
+          <>
+            {leftIconContent}
+            {textContent}
+            {rightIconContent}
+          </>
+        )}
       </Box>
     </TouchableOpacity>
   );

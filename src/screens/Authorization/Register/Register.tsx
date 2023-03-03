@@ -6,14 +6,18 @@ import Logo from '../svg/logo.svg';
 import { useGetValueByDarkTheme } from 'theme/hooks';
 import { NavigationProp, StackActions, useNavigation } from '@react-navigation/native';
 import { AuthorizationStackParams } from '..';
+import IconMessage from 'components/Icons/BoldMessage.svg';
+import BoldLock from 'components/Icons/BoldLock.svg';
+import BoldHide from 'components/Icons/BoldHide.svg';
+import { SocialButtons } from '../components';
 
 type Navigation = NavigationProp<AuthorizationStackParams, 'Register'>;
 
 export const Register: React.FC = () => {
-  const sizeButton = 1 / 4;
   const [isRember, setIsRember] = useState(false);
   const { getValueByDarkTheme } = useGetValueByDarkTheme();
   const navigation = useNavigation<Navigation>();
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
 
   const onPressButton = useCallback(() => {
     Keyboard.dismiss();
@@ -22,6 +26,10 @@ export const Register: React.FC = () => {
   const goToLogin = useCallback(() => {
     navigation.dispatch(StackActions.replace('Login'));
   }, [navigation]);
+
+  const changeViewPassword = useCallback(() => {
+    setSecureTextEntry((value) => !value);
+  }, []);
 
   return (
     <ScrollView keyboardDismissMode="interactive" contentContainerStyle={style.container}>
@@ -36,25 +44,20 @@ export const Register: React.FC = () => {
           </Box>
 
           <Box rowGap="5" marginBottom="5" alignItems="center">
-            <Input placeholder="Email" />
-            <Input placeholder="Password" secureTextEntry />
+            <Input placeholder="Email" iconLeft={<IconMessage />} />
+            <Input
+              placeholder="Password"
+              secureTextEntry={secureTextEntry}
+              iconLeft={<BoldLock />}
+              iconRight={<BoldHide />}
+              onPressRightIcon={changeViewPassword}
+            />
             <Checkbox check={isRember} onCheck={setIsRember} text="Remember me" />
             <Button text="Sign up" onPress={onPressButton} />
           </Box>
 
           <Divider text="or continue with" marginVertical="5" />
-
-          <Box columnGap="5" flexDirection="row" justifyContent="center">
-            <Box flex={sizeButton}>
-              <Button variant="ounline" />
-            </Box>
-            <Box flex={sizeButton}>
-              <Button variant="ounline" />
-            </Box>
-            <Box flex={sizeButton}>
-              <Button variant="ounline" />
-            </Box>
-          </Box>
+          <SocialButtons />
 
           <Box marginTop="5" flexDirection="row" justifyContent="center">
             <Typography variant="BodyMediumRegular" color={getValueByDarkTheme('othersWhite', 'greyscale500')}>

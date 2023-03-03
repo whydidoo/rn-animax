@@ -6,14 +6,18 @@ import Logo from '../svg/logo.svg';
 import { useGetValueByDarkTheme } from 'theme/hooks';
 import { NavigationProp, StackActions, useNavigation } from '@react-navigation/native';
 import { AuthorizationStackParams } from '..';
+import IconMessage from 'components/Icons/BoldMessage.svg';
+import BoldLock from 'components/Icons/BoldLock.svg';
+import BoldHide from 'components/Icons/BoldHide.svg';
+import { SocialButtons } from '../components';
 
 type Navigation = NavigationProp<AuthorizationStackParams, 'Login'>;
 
 export const Login: React.FC = () => {
-  const sizeButton = 1 / 4;
   const [isRember, setIsRember] = useState(false);
   const { getValueByDarkTheme } = useGetValueByDarkTheme();
   const navigation = useNavigation<Navigation>();
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
 
   const onPressButton = useCallback(() => {
     Keyboard.dismiss();
@@ -22,6 +26,10 @@ export const Login: React.FC = () => {
   const goToRegister = useCallback(() => {
     navigation.dispatch(StackActions.replace('Register'));
   }, [navigation]);
+
+  const changeViewPassword = useCallback(() => {
+    setSecureTextEntry((value) => !value);
+  }, []);
 
   return (
     <ScrollView keyboardDismissMode="interactive" contentContainerStyle={style.container}>
@@ -36,8 +44,14 @@ export const Login: React.FC = () => {
           </Box>
 
           <Box rowGap="5" marginBottom="2" alignItems="center">
-            <Input placeholder="Email" />
-            <Input placeholder="Password" secureTextEntry />
+            <Input placeholder="Email" iconLeft={<IconMessage />} />
+            <Input
+              placeholder="Password"
+              secureTextEntry={secureTextEntry}
+              iconLeft={<BoldLock />}
+              iconRight={<BoldHide />}
+              onPressRightIcon={changeViewPassword}
+            />
             <Checkbox check={isRember} onCheck={setIsRember} text="Remember me" />
             <Button text="Sign in" onPress={onPressButton} />
             <TouchableWithoutFeedback>
@@ -48,18 +62,7 @@ export const Login: React.FC = () => {
           </Box>
 
           <Divider text="or continue with" marginVertical="3" />
-
-          <Box columnGap="5" flexDirection="row" justifyContent="center">
-            <Box flex={sizeButton}>
-              <Button variant="ounline" />
-            </Box>
-            <Box flex={sizeButton}>
-              <Button variant="ounline" />
-            </Box>
-            <Box flex={sizeButton}>
-              <Button variant="ounline" />
-            </Box>
-          </Box>
+          <SocialButtons />
 
           <Box marginTop="7" flexDirection="row" justifyContent="center">
             <Typography variant="BodyMediumRegular" color={getValueByDarkTheme('othersWhite', 'greyscale500')}>
