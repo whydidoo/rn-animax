@@ -6,6 +6,12 @@ import { useGetValueByDarkTheme } from 'theme/hooks';
 import { AuthorizationStackParams } from '..';
 import ImgDark from './img_dark.svg';
 import ImgLight from './img_light.svg';
+
+import Facebook from 'components/Icons/Facebook.svg';
+import Google from 'components/Icons/Google.svg';
+import AppleWhiteTheme from 'components/Icons/AppleWhiteTheme.svg';
+import AppleDarkTheme from 'components/Icons/AppleDarkTheme.svg';
+
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 
 type Navigation = NavigationProp<AuthorizationStackParams, 'Social'>;
@@ -22,6 +28,8 @@ export const Social: React.FC = () => {
     navigate('Register');
   }, [navigate]);
 
+  const appleIcon = getValueByDarkTheme(<AppleDarkTheme />, <AppleWhiteTheme />);
+
   return (
     <SafeArea>
       <Box alignItems="center" marginBottom="7">
@@ -32,9 +40,9 @@ export const Social: React.FC = () => {
       </Typography>
 
       <Box rowGap="4">
-        <Button text="Continue with Facebook" variant="ounline" />
-        <Button text="Continue with Google" variant="ounline" />
-        <Button text="Continue with Apple" variant="ounline" />
+        <Button text="Continue with Facebook" variant="ounline" leftIcon={<Facebook />} />
+        <Button text="Continue with Google" variant="ounline" leftIcon={<Google />} />
+        <Button text="Continue with Apple" variant="ounline" leftIcon={appleIcon} />
       </Box>
 
       <Divider marginVertical="6" text="or" />

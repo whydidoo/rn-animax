@@ -8,7 +8,9 @@
       "components/*": ["src/components/*"],
       "theme/*": ["src/theme/*"],
       "screens/*": ["src/screens/*"]
-    }
+    },
+    "isolatedModules": false,
+    "types": ["node"]
   },
   "extends": "@tsconfig/react-native/tsconfig.json"
 }
