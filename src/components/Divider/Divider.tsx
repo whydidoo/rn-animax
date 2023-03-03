@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box } from 'components/Box';
 import { Typography } from 'components/Typography';
-import { Theme } from 'theme';
+import { Theme, ThemeColors } from 'theme';
 import { BoxProps } from '@shopify/restyle';
 import { useGetValueByDarkTheme } from 'theme/hooks';
 
@@ -19,10 +19,10 @@ export const Divider: React.FC<DividerProps & BoxProps<Theme>> = ({ text, ...pro
     </Box>
   ) : null;
 
-  const dividerColor: keyof Theme['colors'] = getValueByDarkTheme('dark3', 'greyscale200');
+  const dividerColor: ThemeColors = getValueByDarkTheme('dark3', 'greyscale200');
 
   return (
-    <Box {...props} position="relative" justifyContent="center" height={40}>
+    <Box {...props} position="relative" justifyContent="center" height={45}>
       <Box position="absolute" height={1} backgroundColor={dividerColor} width="100%" />
       {textContent}
     </Box>
