@@ -14,7 +14,7 @@ import { Box } from 'components/Box';
 import React, { ReactNode, ReactSVGElement, useCallback, useState } from 'react';
 import { TextInputProps as RNTextInputProps, TextInput } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { Theme } from 'theme';
+import { Theme, ThemeColors } from 'theme';
 import { useGetValueByDarkTheme, useThemeApplication } from 'theme/hooks';
 
 interface InputProps extends RNTextInputProps {
@@ -36,11 +36,9 @@ export const Input: React.FC<InputProps> = ({ iconLeft, iconRight, onPressLeftIc
     setIsFocus((value) => !value);
   }, []);
 
-  const backgroundColorInput: keyof Theme['colors'] = isFocus
-    ? 'transparentGreen'
-    : getValueByDarkTheme('dark2', 'greyscale50');
+  const backgroundColorInput: ThemeColors = isFocus ? 'transparentGreen' : getValueByDarkTheme('dark2', 'greyscale50');
 
-  const colorText: keyof Theme['colors'] = getValueByDarkTheme('othersWhite', 'greyscale900');
+  const colorText: ThemeColors = getValueByDarkTheme('othersWhite', 'greyscale900');
   const borderWidth = 1;
   const borderColor = isFocus ? 'primary500' : getValueByDarkTheme('dark2', 'greyscale50');
 

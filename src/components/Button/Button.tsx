@@ -4,7 +4,7 @@ import { Box } from 'components/Box';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { ActivityIndicator, StyleSheet, TouchableOpacityProps } from 'react-native';
 import { GenericTouchableProps } from 'react-native-gesture-handler/lib/typescript/components/touchables/GenericTouchable';
-import { Theme } from 'theme';
+import { Theme, ThemeColors } from 'theme';
 import { useGetValueByDarkTheme, useThemeApplication } from 'theme/hooks';
 import { BorderProps } from '@shopify/restyle';
 import { Typography } from 'components/Typography';
@@ -41,9 +41,9 @@ export const Button: React.FC<Props & ButtonProps> = ({
   const borderProps = {} as BorderProps<Theme>;
   const { getValueByDarkTheme } = useGetValueByDarkTheme();
   const { colors } = useThemeApplication();
-  let colorButton: keyof Theme['colors'] = 'primary500';
-  let textColor: keyof Theme['colors'] = 'othersWhite';
-  let colorIcon: keyof Theme['colors'] = 'othersWhite';
+  let colorButton: ThemeColors = 'primary500';
+  let textColor: ThemeColors = 'othersWhite';
+  let colorIcon: ThemeColors = 'othersWhite';
 
   if (variant === 'ounline') {
     colorButton = getValueByDarkTheme('dark2', 'othersWhite');

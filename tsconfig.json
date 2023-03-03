@@ -7,7 +7,8 @@
       "*": ["src/*"],
       "components/*": ["src/components/*"],
       "theme/*": ["src/theme/*"],
-      "screens/*": ["src/screens/*"]
+      "screens/*": ["src/screens/*"],
+      "routers/*": ["src/routers/*"]
     },
     "isolatedModules": false,
     "types": ["node"]

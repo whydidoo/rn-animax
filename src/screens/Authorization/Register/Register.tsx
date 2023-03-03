@@ -1,7 +1,7 @@
 import { Box, Button, Checkbox, Divider, Input, SafeArea, Typography } from 'components';
 import React, { useCallback, useState } from 'react';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { Keyboard, KeyboardAvoidingView, Platform, StyleSheet } from 'react-native';
+import { Keyboard, StyleSheet } from 'react-native';
 import Logo from '../svg/logo.svg';
 import { useGetValueByDarkTheme } from 'theme/hooks';
 import { NavigationProp, StackActions, useNavigation } from '@react-navigation/native';
@@ -10,6 +10,7 @@ import IconMessage from 'components/Icons/BoldMessage.svg';
 import BoldLock from 'components/Icons/BoldLock.svg';
 import BoldHide from 'components/Icons/BoldHide.svg';
 import { SocialButtons } from '../components';
+import { BackButton } from 'routers/components';
 
 type Navigation = NavigationProp<AuthorizationStackParams, 'Register'>;
 
@@ -32,56 +33,58 @@ export const Register: React.FC = () => {
   }, []);
 
   return (
-    <ScrollView keyboardDismissMode="interactive" contentContainerStyle={style.container}>
-      <SafeArea>
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={style.keyboardAvoiding}>
-          <Box alignItems="center" marginBottom="10">
-            <Logo />
+    <SafeArea>
+      <ScrollView
+        keyboardDismissMode="interactive"
+        contentContainerStyle={style.container}
+        showsVerticalScrollIndicator={false}
+      >
+        <BackButton />
+        <Box alignItems="center">
+          <Logo />
+        </Box>
 
-            <Typography variant="Heading3" marginTop="10">
-              Create Your Account
-            </Typography>
-          </Box>
+        <Typography variant="Heading3" textAlign="center">
+          Create Your Account
+        </Typography>
 
-          <Box rowGap="5" marginBottom="5" alignItems="center">
-            <Input placeholder="Email" iconLeft={<IconMessage />} />
-            <Input
-              placeholder="Password"
-              secureTextEntry={secureTextEntry}
-              iconLeft={<BoldLock />}
-              iconRight={<BoldHide />}
-              onPressRightIcon={changeViewPassword}
-            />
-            <Checkbox check={isRember} onCheck={setIsRember} text="Remember me" />
-            <Button text="Sign up" onPress={onPressButton} />
-          </Box>
+        <Box rowGap="6" alignItems="center">
+          <Input placeholder="Email" iconLeft={<IconMessage />} />
+          <Input
+            placeholder="Password"
+            secureTextEntry={secureTextEntry}
+            iconLeft={<BoldLock />}
+            iconRight={<BoldHide />}
+            onPressRightIcon={changeViewPassword}
+          />
+          <Checkbox check={isRember} onCheck={setIsRember} text="Remember me" />
+          <Button text="Sign up" onPress={onPressButton} shape="rounded" />
+        </Box>
 
-          <Divider text="or continue with" marginVertical="5" />
+        <Box>
+          <Divider text="or continue with" marginBottom="5" />
           <SocialButtons />
+        </Box>
 
-          <Box marginTop="5" flexDirection="row" justifyContent="center">
-            <Typography variant="BodyMediumRegular" color={getValueByDarkTheme('othersWhite', 'greyscale500')}>
-              Already have an account?
+        <Box flexDirection="row" justifyContent="center">
+          <Typography variant="BodyMediumRegular" color={getValueByDarkTheme('othersWhite', 'greyscale500')}>
+            Already have an account?
+          </Typography>
+          <TouchableWithoutFeedback onPress={goToLogin}>
+            <Typography variant="BodyMediumRegular" color="primary500">
+              {' '}
+              Sign in
             </Typography>
-            <TouchableWithoutFeedback onPress={goToLogin}>
-              <Typography variant="BodyMediumRegular" color="primary500">
-                {' '}
-                Sign in
-              </Typography>
-            </TouchableWithoutFeedback>
-          </Box>
-        </KeyboardAvoidingView>
-      </SafeArea>
-    </ScrollView>
+          </TouchableWithoutFeedback>
+        </Box>
+      </ScrollView>
+    </SafeArea>
   );
 };
 
 const style = StyleSheet.create({
-  keyboardAvoiding: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
   container: {
     flex: 1,
+    justifyContent: 'space-between',
   },
 });
